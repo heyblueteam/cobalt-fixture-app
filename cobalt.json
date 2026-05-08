@@ -20,6 +20,15 @@
       "type": "container",
       "image": "default",
       "command": "/worker.sh"
+    },
+    "tick-counter": {
+      "type": "cron",
+      "image": "default",
+      "schedule": "* * * * *",
+      "command": "echo \"tick at $(date -u +%H:%M:%S)\" >> /data/cron.log",
+      "volumes": [
+        { "name": "data", "destinationPath": "/data" }
+      ]
     }
   }
 }
