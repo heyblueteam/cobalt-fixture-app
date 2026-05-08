@@ -19,7 +19,7 @@
     "worker": {
       "type": "container",
       "image": "default",
-      "command": "sh -c \"while true; do echo worker-tick $(date +%H:%M:%S); sleep 5; done\""
+      "command": "/worker.sh"
     }
   }
 }
