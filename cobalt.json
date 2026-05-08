@@ -1,0 +1,25 @@
+{
+  "version": "1.0",
+  "name": "cobalt-fixture-app",
+  "images": {
+    "default": {
+      "dockerfile": "Dockerfile",
+      "context": "."
+    }
+  },
+  "services": {
+    "web": {
+      "type": "container",
+      "image": "default",
+      "port": 3000,
+      "volumes": [
+        { "name": "data", "destinationPath": "/data" }
+      ]
+    },
+    "worker": {
+      "type": "container",
+      "image": "default",
+      "command": "sh -c \"while true; do echo worker-tick $(date +%H:%M:%S); sleep 5; done\""
+    }
+  }
+}

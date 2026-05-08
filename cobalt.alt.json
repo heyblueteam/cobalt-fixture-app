@@ -1,0 +1,17 @@
+{
+  "version": "1.0",
+  "name": "cobalt-fixture-app-alt",
+  "images": {
+    "default": {
+      "dockerfile": "Dockerfile",
+      "context": "."
+    }
+  },
+  "services": {
+    "web": {
+      "type": "container",
+      "image": "default",
+      "port": 3000
+    }
+  }
+}
