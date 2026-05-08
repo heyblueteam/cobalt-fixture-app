@@ -21,11 +21,11 @@
       "image": "default",
       "command": "/worker.sh"
     },
-    "tick-counter": {
+    "tick-counter-removed": {
       "type": "cron",
       "image": "default",
       "schedule": "* * * * *",
-      "command": "echo \"tick at $(date -u +%H:%M:%S)\" >> /data/cron.log",
+      "command": "echo \"new-cron tick at $(date -u +%H:%M:%S)\" >> /data/cron2.log",
       "volumes": [
         { "name": "data", "destinationPath": "/data" }
       ]
