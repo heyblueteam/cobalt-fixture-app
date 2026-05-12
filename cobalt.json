@@ -25,7 +25,7 @@
     "hook:deploy:start:before": {
       "type": "command",
       "image": "default",
-      "command": "set -eu; mkdir -p /sentinels; if grep -q host.docker.internal /etc/hosts; then echo HOOK-BEFORE-EXTRARUNPARAMS-OK; echo OK > /sentinels/before-extra-run-params; else echo HOOK-BEFORE-EXTRARUNPARAMS-MISSING; echo MISSING > /sentinels/before-extra-run-params; fi; echo \"HOOK-BEFORE-SENTINEL marker=${HOOK_MARKER:-unset}\"; printf '%s' \"${HOOK_MARKER:-unset}\" > /sentinels/before",
+      "command": "set -eu; mkdir -p /sentinels; if grep -q host.docker.internal /etc/hosts; then echo HOOK-BEFORE-EXTRARUNPARAMS-OK; printf '%s' OK > /sentinels/before-extra-run-params; else echo HOOK-BEFORE-EXTRARUNPARAMS-MISSING; printf '%s' MISSING > /sentinels/before-extra-run-params; fi; echo \"HOOK-BEFORE-SENTINEL marker=${HOOK_MARKER:-unset}\"; printf '%s' \"${HOOK_MARKER:-unset}\" > /sentinels/before",
       "extraRunParams": "--add-host host.docker.internal:host-gateway",
       "volumes": [
         { "name": "sentinels", "destinationPath": "/sentinels" }
