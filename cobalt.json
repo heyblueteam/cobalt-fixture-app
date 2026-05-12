@@ -13,7 +13,8 @@
       "image": "default",
       "port": 3000,
       "volumes": [
-        { "name": "data", "destinationPath": "/data" }
+        { "name": "data", "destinationPath": "/data" },
+        { "name": "sentinels", "destinationPath": "/usr/share/nginx/html/sentinels" }
       ]
     },
     "worker": {
@@ -21,13 +22,21 @@
       "image": "default",
       "command": "/worker.sh"
     },
-    "tick-counter-removed": {
-      "type": "cron",
+    "hook:deploy:start:before": {
+      "type": "command",
       "image": "default",
-      "schedule": "* * * * *",
-      "command": "echo \"new-cron tick at $(date -u +%H:%M:%S)\" >> /data/cron2.log",
+      "command": "set -eu; mkdir -p /sentinels; if grep -q host.docker.internal /etc/hosts; then echo HOOK-BEFORE-EXTRARUNPARAMS-OK; echo OK > /sentinels/before-extra-run-params; else echo HOOK-BEFORE-EXTRARUNPARAMS-MISSING; echo MISSING > /sentinels/before-extra-run-params; fi; echo \"HOOK-BEFORE-SENTINEL marker=${HOOK_MARKER:-unset}\"; printf '%s' \"${HOOK_MARKER:-unset}\" > /sentinels/before",
+      "extraRunParams": "--add-host host.docker.internal:host-gateway",
       "volumes": [
-        { "name": "data", "destinationPath": "/data" }
+        { "name": "sentinels", "destinationPath": "/sentinels" }
+      ]
+    },
+    "hook:deploy:start:after": {
+      "type": "command",
+      "image": "default",
+      "command": "set -eu; mkdir -p /sentinels; echo \"HOOK-AFTER-SENTINEL marker=${HOOK_MARKER:-unset}\"; printf '%s' \"${HOOK_MARKER:-unset}\" > /sentinels/after",
+      "volumes": [
+        { "name": "sentinels", "destinationPath": "/sentinels" }
       ]
     }
   }
